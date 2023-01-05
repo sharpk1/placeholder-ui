@@ -1,1 +1,15 @@
-1. Go to Android studio to run android emulators
+1. Go to Android studio to run android emulators 
+2. Add second screen functionalities like progress that pertain to the store
+3. Add a login and sign up page 
+
+What should the second screen have?
+1. Your progress in a nice format
+    - what should the progress look like?
+    - so far its jsut a line with increments on it
+2. information about the dispensary
+    - Have it in a card component and throw whatveer information needed
+    - make sure to include business hours
+3. A list of deals
+    - Have it iterate after 
+    - Loook at groupon 
+4. a favorites functionality
