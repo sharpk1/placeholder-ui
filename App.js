@@ -38,10 +38,19 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import SecondScreen from './screens/SecondScreen'
 import LoginScreen from './screens/LoginScreen'
+import { useFonts } from 'expo-font'
 
 const Stack = createNativeStackNavigator()
 
 export default function App() {
+    const [loaded] = useFonts({
+        'Celias-Bold': require('./fonts/Celias-Bold.ttf'),
+    })
+
+    if (!loaded) {
+        return null
+    }
+
     return (
         <NavigationContainer>
             <Stack.Navigator>

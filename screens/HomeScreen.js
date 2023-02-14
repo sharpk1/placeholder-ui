@@ -1,13 +1,8 @@
 import { StatusBar } from 'expo-status-bar'
 import { NativeBaseProvider, ScrollView } from 'native-base'
-import {
-    StyleSheet,
-    Text,
-    View,
-    Button,
-    TouchableHighlight,
-} from 'react-native'
+import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
 import Example from '../Card'
+import ExampleDotPaginate from '../components/Example'
 
 export default function HomeScreen({ navigation }) {
     const dispos = [
@@ -18,14 +13,10 @@ export default function HomeScreen({ navigation }) {
         'https://assets.website-files.com/60f616111b115763029724b7/614b662d740582085a3c52aa_612ea1f1255d20384de10b86_alternative-releaf-dispensary-libby-montana%20(1)%20-%20Copy.jpg',
     ]
 
-    // var len = dispos.length
-    // for (var i = len; i < 2 * len; i++) dispos[i] = dispos[i - len]
-
     return (
         <NativeBaseProvider>
             <ScrollView>
                 <View style={styles.container}>
-                    {/* <Text>Hello World</Text> */}
                     <StatusBar style="auto" />
                     <Button
                         title="Click me"
@@ -33,14 +24,16 @@ export default function HomeScreen({ navigation }) {
                     />
                     {dispos.map(image => {
                         return (
-                            <TouchableHighlight
+                            <TouchableOpacity
                                 key={image}
                                 onPress={() => {
-                                    navigation.navigate('Second')
+                                    navigation.navigate('Second', {
+                                        image: image,
+                                    })
                                 }}
                             >
                                 <Example fileName={image} />
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                         )
                     })}
                 </View>

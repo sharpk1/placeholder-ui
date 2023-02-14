@@ -13,7 +13,7 @@ import {
 
 const Example = props => {
     const { fileName } = props
-    console.log(fileName)
+    // console.log(fileName)
     // const path = `./assets/dispensary/${fileName}`
 
     // const newString = require(path)
@@ -21,8 +21,8 @@ const Example = props => {
     return (
         <Box alignItems="center">
             <Box
-                maxW="80"
                 marginBottom={'10px'}
+                maxW="80"
                 rounded="lg"
                 overflow="hidden"
                 borderColor="coolGray.200"

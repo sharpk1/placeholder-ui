@@ -1,35 +1,48 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import * as Progress from 'react-native-progress'
 import { MilestoneProgressBar } from 'milestone-progress-bar'
+import Step from '../components/Step'
+import MyCarousel from '../components/MyCarousel'
 
-export default function SecondScreen({ navigation }) {
+export default function SecondScreen({ route, navigation }) {
+    const { image } = route.params
     return (
-        <View style={styles.container}>
-            {/* <Progress.Circle
-                progress={0.25}
-                size={100}
-                indeterminate={false}
-                showsText={true}
-            />
-            <Progress.CircleSnail color={['red', 'green', 'blue']} /> */}
-            <MilestoneProgressBar
-                totalMilestones={3}
-                progress={[
-                    { completed: 4, total: 4 },
-                    { completed: 0, total: 2 },
-                    { completed: 0, total: 2 },
-                ]}
-            />
-        </View>
+        <>
+            <View>
+                <Step />
+                <MyCarousel image={image} />
+            </View>
+        </>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
         // justifyContent: 'center',
-        marginTop: 0,
+        // marginTop: 0,
+        // new here vvv
+        // flexDirection: 'column',
+        // justifyContent: 'center',
+        // alignItems: 'center',
     },
+    logo: {
+        marginTop: 20,
+        width: '80%',
+        height: '55%',
+        borderRadius: '10px',
+        // justifyContent: 'center',
+        alignSelf: 'center',
+        // backgroundColor: '#fff',
+    },
+    // container2: {
+    //     display: 'flex',
+    //     backgroundColor: '#fff',
+    //     // alignItems: 'center',
+    //     // justifyContent: 'center',
+
+    //     // new here vvv
+    // },
 })
