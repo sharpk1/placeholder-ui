@@ -10,28 +10,30 @@ import {
     Divider,
     NativeBaseProvider,
 } from 'native-base'
+import AvatarImage from './Avatar'
 
 const StackExample = () => {
     return (
-        <ScrollView>
-            <VStack space="2.5" mt="4" px="8">
-                <Heading size="md">row</Heading>
-                <Stack direction="row" mb="2.5" mt="1.5" space={1}>
-                    <Stack mb="2.5" direction="column" space={1}>
-                        {/* <Center
-                            size="16"
-                            bg="primary.400"
-                            rounded="sm"
-                            _text={{
-                                color: 'warmGray.50',
-                                fontWeight: 'medium',
-                            }}
-                            shadow={'3'}
-                        >
-                            Box 1
-                        </Center> */}
-                        <View style={{ opacity: 0 }}>
-                            <Center
+        // <ScrollView>
+        <VStack space="2.5" mt="4" px="8">
+            <Stack
+                direction="row"
+                mb="2.5"
+                mt="1.5"
+                // space={1}
+                flexDirection={'row'}
+                justifyContent={'space-between'}
+                display={'flex'}
+            >
+                <View style={{}}>
+                    <Stack
+                        mb="2.5"
+                        direction="column"
+                        space={1}
+                        display={'flex'}
+                    >
+                        <View style={{ opacity: 1, marginRight: 10 }}>
+                            {/* <Center
                                 bg="primary.500"
                                 size="16"
                                 rounded="sm"
@@ -42,22 +44,28 @@ const StackExample = () => {
                                 shadow={'3'}
                             >
                                 Box 2
-                            </Center>
+                            </Center> */}
+                            <AvatarImage />
                         </View>
 
-                        <Center
-                            size="16"
-                            bg="primary.700"
-                            rounded="sm"
-                            _text={{
-                                color: 'warmGray.50',
-                                fontWeight: 'medium',
-                            }}
-                            shadow={'3'}
-                        >
-                            Box 3
-                        </Center>
+                        <View>
+                            {/* <Center
+                                size="16"
+                                bg="primary.700"
+                                rounded="sm"
+                                _text={{
+                                    color: 'warmGray.50',
+                                    fontWeight: 'medium',
+                                }}
+                                shadow={'3'}
+                            >
+                                
+                                Box 3
+                            </Center> */}
+                        </View>
                     </Stack>
+                </View>
+                <View>
                     <Stack mb="2.5" direction="column" space={1}>
                         <Center
                             minWidth={'64'}
@@ -99,32 +107,9 @@ const StackExample = () => {
                             Box 3
                         </Center>
                     </Stack>
-                    {/* <Center
-                        bg="primary.500"
-                        size="16"
-                        rounded="sm"
-                        _text={{
-                            color: 'warmGray.50',
-                            fontWeight: 'medium',
-                        }}
-                        shadow={'3'}
-                    >
-                        Box 2
-                    </Center>
-                    <Center
-                        size="16"
-                        bg="primary.700"
-                        rounded="sm"
-                        _text={{
-                            color: 'warmGray.50',
-                            fontWeight: 'medium',
-                        }}
-                        shadow={'3'}
-                    >
-                        Box 3
-                    </Center> */}
-                </Stack>
-                <Divider />
+                </View>
+            </Stack>
+            {/* <Divider />
                 <Heading size="md">column</Heading>
                 <Stack mb="2.5" mt="1.5" direction="column" space={3}>
                     <Center
@@ -244,9 +229,9 @@ const StackExample = () => {
                         Box 3
                     </Center>
                 </Stack>
-                <Divider />
-            </VStack>
-        </ScrollView>
+                <Divider /> */}
+        </VStack>
+        // </ScrollView>
     )
 }
 
