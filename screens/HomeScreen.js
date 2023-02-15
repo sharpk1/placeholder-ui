@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar'
 import { NativeBaseProvider, ScrollView } from 'native-base'
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
 import Example from '../Card'
+import Deal from '../components/Deal'
 import ExampleDotPaginate from '../components/Example'
 
 export default function HomeScreen({ navigation }) {

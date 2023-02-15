@@ -4,13 +4,13 @@ import { View, Text } from 'react-native'
 import StepIndicator from 'react-native-step-indicator'
 
 const Step = () => {
-    const [currentPosition, setCurrentPosition] = useState(0)
+    const [currentPosition, setCurrentPosition] = useState(3)
     const labels = [
-        'First visit',
-        'Second visit',
-        'Third visit',
-        'Fourth visit',
-        'Fifth visit',
+        '1st visit',
+        '2nd visit',
+        '3rd visit',
+        '4th visit',
+        '5th visit',
     ]
     const customStyles = {
         stepIndicatorSize: 25,
@@ -19,11 +19,11 @@ const Step = () => {
         currentStepStrokeWidth: 3,
         stepStrokeCurrentColor: 'green',
         stepStrokeWidth: 3,
-        stepStrokeFinishedColor: '#fe7013',
+        stepStrokeFinishedColor: 'green',
         stepStrokeUnFinishedColor: '#aaaaaa',
-        separatorFinishedColor: '#fe7013',
+        separatorFinishedColor: 'green',
         separatorUnFinishedColor: '#aaaaaa',
-        stepIndicatorFinishedColor: '#fe7013',
+        stepIndicatorFinishedColor: 'green',
         stepIndicatorUnFinishedColor: '#ffffff',
         stepIndicatorCurrentColor: '#ffffff',
         stepIndicatorLabelFontSize: 13,
@@ -41,7 +41,13 @@ const Step = () => {
     }
 
     return (
-        <View style={{ paddingTop: 20 }}>
+        <View
+            style={{
+                paddingTop: 20,
+                backgroundColor: 'white',
+                paddingBottom: 10,
+            }}
+        >
             <StepIndicator
                 customStyles={customStyles}
                 currentPosition={currentPosition}
@@ -50,44 +56,6 @@ const Step = () => {
                     onPageChange(e)
                 }}
             />
-        </View>
-    )
-}
-
-const StepC = () => {
-    return (
-        <View style={{ flex: 1 }}>
-            <ProgressSteps>
-                <ProgressStep
-                    previousBtnDisabled={false}
-                    nextBtnDisabled={true}
-                    nextBtnTextStyle={{ display: 'none' }}
-                    label="First Step"
-                >
-                    <View style={{ alignItems: 'center' }}>
-                        <Text>This is the content within step 1!</Text>
-                    </View>
-                </ProgressStep>
-                <ProgressStep
-                    previousBtnDisabled={false}
-                    nextBtnDisabled={true}
-                    label="Second Step"
-                >
-                    <View style={{ alignItems: 'center' }}>
-                        <Text>This is the content within step 2!</Text>
-                    </View>
-                </ProgressStep>
-                <ProgressStep
-                    previousBtnDisabled={false}
-                    nextBtnDisabled={true}
-                    label="Third Step"
-                >
-                    <View style={{ alignItems: 'center' }}>
-                        <Text>This is the content within step 3!</Text>
-                    </View>
-                </ProgressStep>
-            </ProgressSteps>
-            <StepComponent />
         </View>
     )
 }

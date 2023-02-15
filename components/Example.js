@@ -6,7 +6,7 @@ const ExampleDotPaginate = props => {
     const { pages, currentIndex } = props
 
     return (
-        <View style={{ alignSelf: 'center' }}>
+        <View style={{ alignSelf: 'center', marginTop: 10 }}>
             <PaginationDot
                 activeDotColor={'green'}
                 curPage={currentIndex}

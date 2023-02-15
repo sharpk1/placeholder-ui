@@ -1,17 +1,61 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
-import * as Progress from 'react-native-progress'
-import { MilestoneProgressBar } from 'milestone-progress-bar'
+import { StyleSheet, Text, View } from 'react-native'
 import Step from '../components/Step'
 import MyCarousel from '../components/MyCarousel'
+import Ratings from '../components/Ratings'
+import Deal from '../components/Deal'
+import Deal2 from '../components/Deal2'
+import { ScrollView, Stack } from 'native-base'
+import StackExample from '../components/StackExample'
 
 export default function SecondScreen({ route, navigation }) {
     const { image } = route.params
+
     return (
         <>
-            <View>
-                <Step />
-                <MyCarousel image={image} />
-            </View>
+            <ScrollView>
+                <View>
+                    <Step />
+                    <MyCarousel image={image} />
+                    <Text style={{ fontSize: '32px', marginLeft: 10 }}>
+                        Star Buds
+                    </Text>
+                    <Text style={{ color: 'blue', marginLeft: 10 }}>
+                        5238 W 44th Ave, Denver, CO 80212 - 3 miles away
+                    </Text>
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                        <View>
+                            <Ratings />
+                        </View>
+                        {/* TODO: Is this clean? */}
+                        <View style={{ paddingTop: 13 }}>
+                            <Text>74 Reviews</Text>
+                        </View>
+                    </View>
+                    <Text
+                        style={{
+                            fontSize: '16px',
+                            marginLeft: 10,
+                            marginTop: 15,
+                        }}
+                    >
+                        Daily Deals
+                    </Text>
+                    <View
+                        style={{
+                            borderBottomColor: 'black',
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                        }}
+                    />
+
+                    <View style={{ marginTop: 10 }}>
+                        {/* <Deal /> */}
+                        <Deal2 />
+                        <Deal2 />
+                        <Deal2 />
+                        <StackExample></StackExample>
+                    </View>
+                </View>
+            </ScrollView>
         </>
     )
 }
