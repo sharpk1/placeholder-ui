@@ -7,6 +7,7 @@ import {
     Alert,
     View,
 } from 'react-native'
+import Scanner from '../components/Scanner'
 
 const LoginScreen = () => {
     const [text, setText] = useState('')
@@ -21,27 +22,28 @@ const LoginScreen = () => {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeText}
-                    value={text}
-                />
-                <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeNumber}
-                    value={number}
-                    placeholder="useless placeholder"
-                    keyboardType="default"
-                    secureTextEntry={true}
-                />
-                <Button
-                    title="Sign In"
-                    onPress={() => Alert.alert('Simple Button pressed')}
-                />
-            </View>
-        </SafeAreaView>
+        // <SafeAreaView style={styles.container}>
+        //     <View>
+        //         <TextInput
+        //             style={styles.input}
+        //             onChangeText={onChangeText}
+        //             value={text}
+        //         />
+        //         <TextInput
+        //             style={styles.input}
+        //             onChangeText={onChangeNumber}
+        //             value={number}
+        //             placeholder="useless placeholder"
+        //             keyboardType="default"
+        //             secureTextEntry={true}
+        //         />
+        //         <Button
+        //             title="Sign In"
+        //             onPress={() => Alert.alert('Simple Button pressed')}
+        //         />
+        //     </View>
+        // </SafeAreaView>
+        <Scanner />
     )
 }
 

@@ -12,13 +12,15 @@ import {
 } from 'native-base'
 import StackExample from './StackExample'
 
-const Example = () => {
+const Example = props => {
+    const { image } = props
     return (
         <Box alignItems="center">
             <Box
                 marginBottom={'5px'}
                 // height={'100px'}
-                // maxW="80"
+                // maxW="890"
+                maxW="96"
                 rounded="lg"
                 overflow="hidden"
                 borderColor="coolGray.200"
@@ -62,7 +64,7 @@ const Example = () => {
                         PHOTOS
                     </Center> */}
                 </Box>
-                <StackExample />
+                <StackExample image={image} />
                 {/* <Stack p="4" space={3}> */}
                 {/* <Stack space={2}>
                         <Heading size="xs" ml="-1">
@@ -111,11 +113,12 @@ const Example = () => {
     )
 }
 
-export default () => {
+export default props => {
+    const { image } = props
     return (
         <NativeBaseProvider>
             <Center px="3">
-                <Example />
+                <Example image={image} />
             </Center>
         </NativeBaseProvider>
     )

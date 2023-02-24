@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar'
 import { NativeBaseProvider, ScrollView } from 'native-base'
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
 import Example from '../Card'
+import BottomSheet from '../components/BottomSheet'
 import Deal from '../components/Deal'
 import ExampleDotPaginate from '../components/Example'
 
@@ -23,6 +24,7 @@ export default function HomeScreen({ navigation }) {
                         title="Click me"
                         onPress={() => navigation.navigate('Login')}
                     />
+
                     {dispos.map(image => {
                         return (
                             <TouchableOpacity
@@ -50,5 +52,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // marginTop: 100
+    },
+    action: {
+        margin: 100,
+        width: '100%',
+        height: 500,
+        // alignItems: 'stretch',
+        // justifyContent: 'flex-start',
     },
 })

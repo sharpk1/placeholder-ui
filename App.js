@@ -1,10 +1,12 @@
 import HomeScreen from './screens/HomeScreen'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import SecondScreen from './screens/SecondScreen'
+import SecondScreeniOS from './screens/SecondScreen.ios'
+import SecondScreenAndroid from './screens/SecondScreen.android'
 import LoginScreen from './screens/LoginScreen'
 import { useFonts } from 'expo-font'
 import { NativeBaseProvider } from 'native-base'
+import { Platform, StyleSheet } from 'react-native'
 
 const Stack = createNativeStackNavigator()
 
@@ -26,11 +28,20 @@ export default function App() {
                         component={HomeScreen}
                         options={{ title: '' }}
                     />
-                    <Stack.Screen
-                        name="Second"
-                        component={SecondScreen}
-                        options={{ title: 'Second' }}
-                    />
+                    {Platform.OS === 'ios' ? (
+                        <Stack.Screen
+                            name="Second"
+                            component={SecondScreeniOS}
+                            options={{ title: 'Second' }}
+                        />
+                    ) : (
+                        <Stack.Screen
+                            name="Second"
+                            component={SecondScreenAndroid}
+                            options={{ title: 'Second' }}
+                        />
+                    )}
+
                     <Stack.Screen
                         name="Login"
                         component={LoginScreen}

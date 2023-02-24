@@ -1,6 +1,6 @@
 //@ts-nocheck
 import React from 'react'
-import { View } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import {
     Stack,
     Center,
@@ -9,10 +9,14 @@ import {
     VStack,
     Divider,
     NativeBaseProvider,
+    Badge,
+    HStack,
 } from 'native-base'
 import AvatarImage from './Avatar'
 
-const StackExample = () => {
+const StackExample = props => {
+    const { image } = props
+
     return (
         // <ScrollView>
         <VStack space="2.5" mt="4" px="8">
@@ -20,19 +24,25 @@ const StackExample = () => {
                 direction="row"
                 mb="2.5"
                 mt="1.5"
-                // space={1}
+                space={1}
                 flexDirection={'row'}
                 justifyContent={'space-between'}
                 display={'flex'}
             >
-                <View style={{}}>
+                <View>
                     <Stack
                         mb="2.5"
                         direction="column"
                         space={1}
                         display={'flex'}
                     >
-                        <View style={{ opacity: 1, marginRight: 10 }}>
+                        <View
+                            style={{
+                                opacity: 1,
+                                marginRight: 10,
+                                marginTop: 10,
+                            }}
+                        >
                             {/* <Center
                                 bg="primary.500"
                                 size="16"
@@ -45,7 +55,7 @@ const StackExample = () => {
                             >
                                 Box 2
                             </Center> */}
-                            <AvatarImage />
+                            <AvatarImage image={image} />
                         </View>
 
                         <View>
@@ -68,44 +78,115 @@ const StackExample = () => {
                 <View>
                     <Stack mb="2.5" direction="column" space={1}>
                         <Center
-                            minWidth={'64'}
+                            minWidth={'48'}
                             size="16"
-                            bg="primary.400"
+                            // bg="primary.400"
                             rounded="sm"
                             _text={{
                                 color: 'warmGray.50',
-                                fontWeight: 'medium',
+                                // fontWeight: 'medium',
                             }}
-                            shadow={'3'}
+                            // shadow={'3'}
                         >
-                            Box 1
+                            <View style={{ display: 'flex' }}>
+                                <Text
+                                    style={{
+                                        fontSize: 12,
+                                        fontWeight: 'normal',
+                                        alignSelf: 'flex-end',
+                                    }}
+                                >
+                                    Cherry Slimeade - 3.5 grams
+                                </Text>
+                                <View
+                                    style={{
+                                        justifyContent: 'center',
+                                        marginTop: 5,
+                                    }}
+                                >
+                                    <Badge colorScheme="info">Hybrid</Badge>
+                                </View>
+                            </View>
                         </Center>
                         <Center
-                            minWidth={'64'}
-                            bg="primary.500"
-                            size="16"
+                            minWidth={'48'}
+                            // bg="primary.500"
+                            size="8"
                             rounded="sm"
                             _text={{
                                 color: 'warmGray.50',
-                                fontWeight: 'medium',
+                                fontWeight: 'normal',
                             }}
-                            shadow={'3'}
+                            // shadow={'3'}
                         >
-                            Box 2
+                            {/* <HStack
+                                space={{
+                                    base: 2,
+                                    sm: 4,
+                                }}
+                                mx={{
+                                    base: 'auto',
+                                    md: 0,
+                                }}
+                            >
+                                <Badge colorScheme="info">Focused</Badge>
+                                <Badge colorScheme="info">Tingly</Badge>
+                                <Badge colorScheme="info">Energetic</Badge>
+                            </HStack> */}
+                            <View
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        // marginTop: 5,
+                                        textDecorationLine: 'line-through',
+                                        fontSize: 25,
+                                        fontWeight: '100',
+                                    }}
+                                >
+                                    $20{' '}
+                                </Text>
+                                <Text
+                                    style={{
+                                        // marginTop: 5,
+                                        fontSize: 25,
+                                        color: 'green',
+                                    }}
+                                >
+                                    $10{' '}
+                                    <View>
+                                        <Badge colorScheme="emerald">
+                                            50% off
+                                        </Badge>
+                                    </View>
+                                </Text>
+                            </View>
                         </Center>
-                        <Center
-                            minWidth={'64'}
-                            size="16"
-                            bg="primary.700"
-                            rounded="sm"
-                            _text={{
-                                color: 'warmGray.50',
-                                fontWeight: 'medium',
+                        <TouchableOpacity
+                            onPress={() => {
+                                console.log('hey!')
                             }}
-                            shadow={'3'}
                         >
-                            Box 3
-                        </Center>
+                            <Center
+                                // marginRight={5}
+                                minWidth={'40'}
+                                size="16"
+                                bg="#44e36f"
+                                rounded="sm"
+                                _text={{
+                                    // color: 'warmGray.50',
+                                    fontWeight: 'medium',
+                                }}
+                                shadow={'3'}
+                                alignSelf={'center'}
+                            >
+                                <Text>Claim Deal</Text>
+                            </Center>
+                        </TouchableOpacity>
                     </Stack>
                 </View>
             </Stack>
@@ -231,15 +312,18 @@ const StackExample = () => {
                 </Stack>
                 <Divider /> */}
         </VStack>
+
         // </ScrollView>
     )
 }
 
-export default () => {
+export default props => {
+    const { image } = props
+
     return (
         <NativeBaseProvider>
             <Center flex={1} px="3">
-                <StackExample />
+                <StackExample image={image} />
             </Center>
         </NativeBaseProvider>
     )
