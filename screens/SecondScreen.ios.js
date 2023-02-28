@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    Linking,
+    Platform,
+} from 'react-native'
 import Step from '../components/Step'
 import MyCarousel from '../components/MyCarousel'
 import Ratings from '../components/Ratings'
@@ -18,6 +25,20 @@ export default function SecondScreeniOS({ route, navigation }) {
         'https://images.weedmaps.com/pictures/listings/517/477/838/426155319_WNXZg7uiC3skv2sEe-1.png?w=400&h=400&dpr=2&auto=format&fit=crop',
     ]
 
+    const openMap = async (address, zipCode, city) => {
+        const destination = encodeURIComponent(`${address} ${zipCode}, ${city}`)
+        const provider = Platform.OS === 'ios' ? 'apple' : 'google'
+        const link = `http://maps.${provider}.com/?daddr=${destination}`
+
+        try {
+            const supported = await Linking.canOpenURL(link)
+
+            if (supported) Linking.openURL(link)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <>
             <ScrollView>
@@ -28,7 +49,12 @@ export default function SecondScreeniOS({ route, navigation }) {
                     <Text style={{ fontSize: '32px', marginLeft: 10 }}>
                         Star Buds
                     </Text>
-                    <Text style={{ color: 'blue', marginLeft: 10 }}>
+                    <Text
+                        style={{ color: 'blue', marginLeft: 10 }}
+                        onPress={() => {
+                            openMap('5238 W 44th Avenue', '80212', 'Denver')
+                        }}
+                    >
                         5238 W 44th Ave, Denver, CO 80212 - 3 miles away
                     </Text>
                     <View style={{ display: 'flex', flexDirection: 'row' }}>

@@ -1,10 +1,9 @@
 import { StatusBar } from 'expo-status-bar'
 import { NativeBaseProvider, ScrollView } from 'native-base'
+import { useEffect } from 'react'
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
 import Example from '../Card'
-import BottomSheet from '../components/BottomSheet'
-import Deal from '../components/Deal'
-import ExampleDotPaginate from '../components/Example'
+import axios from 'axios'
 
 export default function HomeScreen({ navigation }) {
     const dispos = [
@@ -14,6 +13,23 @@ export default function HomeScreen({ navigation }) {
         'https://leafly-cms-production.imgix.net/wp-content/uploads/2019/01/10130954/cannabliss-co-portland.jpg',
         'https://assets.website-files.com/60f616111b115763029724b7/614b662d740582085a3c52aa_612ea1f1255d20384de10b86_alternative-releaf-dispensary-libby-montana%20(1)%20-%20Copy.jpg',
     ]
+
+    useEffect(() => {
+        async function fetchData() {
+            axios
+                .get('http://192.168.1.14:8000/users')
+                .then(response => {
+                    const res = response.data
+                    res.forEach(element => {
+                        console.log(element.firstName)
+                    })
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
+        fetchData()
+    }, [])
 
     return (
         <NativeBaseProvider>
