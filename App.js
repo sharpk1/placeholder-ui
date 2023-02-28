@@ -7,6 +7,7 @@ import LoginScreen from './screens/LoginScreen'
 import { useFonts } from 'expo-font'
 import { NativeBaseProvider } from 'native-base'
 import { Platform, StyleSheet } from 'react-native'
+import SignUpScreeniOS from './screens/SignUpScreen.ios'
 
 const Stack = createNativeStackNavigator()
 
@@ -22,10 +23,14 @@ export default function App() {
     return (
         <NativeBaseProvider>
             <NavigationContainer>
-                <Stack.Navigator>
+                <Stack.Navigator
+                    screenOptions={{
+                        headerShown: false,
+                    }}
+                >
                     <Stack.Screen
                         name="Home"
-                        component={HomeScreen}
+                        component={SignUpScreeniOS}
                         options={{ title: '' }}
                     />
                     {Platform.OS === 'ios' ? (
