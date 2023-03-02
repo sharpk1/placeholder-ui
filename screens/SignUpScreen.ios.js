@@ -19,7 +19,7 @@ const BackgroundVideo = () => {
             <Video
                 ref={video}
                 style={styles.backgroundVideo}
-                source={require('../assets/signupcompressed.mp4')}
+                source={require('../assets/video1.mp4')}
                 resizeMode="cover"
                 isLooping
                 onPlaybackStatusUpdate={status => setStatus(() => status)}
