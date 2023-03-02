@@ -4,7 +4,7 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    TouchableHighlight,
+    TouchableOpacity,
 } from 'react-native'
 import styled from 'styled-components/native'
 // import Video from 'react-native-video'
@@ -16,33 +16,15 @@ const BackgroundVideo = () => {
     const [status, setStatus] = React.useState({})
     return (
         <View>
-            {/* <Video
-                source={require('../assets/video1.mp4')}
-                style={styles.backgroundVideo}
-                muted={true}
-                repeat={true}
-                resizeMode={'cover'}
-                rate={1.0}
-                ignoreSilentSwitch={'obey'}
-            /> */}
-            {/* <Video
-                // ref={video}
-                // style={styles.backgroundVideo}
-                source={require('../assets/video1.mp4')}
-                useNativeControls
-                resizeMode="contain"
-                // isLooping
-                // onPlaybackStatusUpdate={status => setStatus(() => status)}
-            /> */}
             <Video
                 ref={video}
                 style={styles.backgroundVideo}
-                source={require('../assets/video1.mp4')}
-                useNativeControls
-                resizeMode="contain"
+                source={require('../assets/signup.mp4')}
+                resizeMode="cover"
                 isLooping
                 onPlaybackStatusUpdate={status => setStatus(() => status)}
                 shouldPlay={true}
+                useNativeControls={false}
             />
 
             <Wrapper>
@@ -52,8 +34,20 @@ const BackgroundVideo = () => {
                 </TextDescription>
                 <ButtonWrapper>
                     <Fragment>
-                        <Button title="Create Account" />
-                        <Button transparent title="Login" />
+                        <TouchableOpacity
+                            onPress={() => {
+                                console.log('hey')
+                            }}
+                        >
+                            <Button
+                                style={{
+                                    color: 'black',
+                                }}
+                                title="Create Account"
+                            />
+                        </TouchableOpacity>
+
+                        <Button bor transparent title="Login" />
                     </Fragment>
                 </ButtonWrapper>
             </Wrapper>
@@ -71,6 +65,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         bottom: 0,
         right: 0,
+        opacity: 0.95,
     },
 })
 
