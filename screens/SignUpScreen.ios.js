@@ -2,9 +2,11 @@ import React, { Component, Fragment } from 'react'
 import {
     Text,
     View,
+    Pressable,
     StyleSheet,
     Dimensions,
     TouchableOpacity,
+    Button as HeyButton,
 } from 'react-native'
 import styled from 'styled-components/native'
 // import Video from 'react-native-video'
@@ -14,6 +16,9 @@ const { width, height } = Dimensions.get('window')
 const BackgroundVideo = () => {
     const video = React.useRef(null)
     const [status, setStatus] = React.useState({})
+    const buttonHandler = () => {
+        console.log('hey')
+    }
     return (
         <View>
             <Video
@@ -34,18 +39,25 @@ const BackgroundVideo = () => {
                 </TextDescription>
                 <ButtonWrapper>
                     <Fragment>
-                        <TouchableOpacity
+                        {/* <Button
+                            style={{
+                                color: 'black',
+                            }}
+                            title="Create Account"
+                            onPress={buttonHandler}
+                        />
+                        <HeyButton
+                            title="Create Account"
+                            onPress={buttonHandler}
+                        /> */}
+                        <Pressable
+                            style={styles.button}
                             onPress={() => {
                                 console.log('hey')
                             }}
                         >
-                            <Button
-                                style={{
-                                    color: 'black',
-                                }}
-                                title="Create Account"
-                            />
-                        </TouchableOpacity>
+                            <Text style={styles.text}>Create Account</Text>
+                        </Pressable>
 
                         <Button bor transparent title="Login" />
                     </Fragment>
@@ -66,6 +78,32 @@ const styles = StyleSheet.create({
         bottom: 0,
         right: 0,
         opacity: 0.95,
+    },
+    button: {
+        width: 250,
+        backgroundColor: '#f3f8ff',
+        padding: 15,
+        border: '1px solid #f3f8ff ',
+        justifyContent: 'center',
+        marginBottom: 20,
+        borderRadius: 24,
+
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        // paddingVertical: 12,
+        // paddingHorizontal: 32,
+        // borderRadius: 4,
+        // elevation: 3,
+        // backgroundColor: 'black',
+    },
+    text: {
+        textTransform: 'uppercase',
+        // fontSize: 14,
+        // lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 3,
+        color: 'black',
+        textAlign: 'center',
     },
 })
 
