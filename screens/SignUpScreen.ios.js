@@ -5,20 +5,39 @@ import {
     Pressable,
     StyleSheet,
     Dimensions,
-    TouchableOpacity,
-    Button as HeyButton,
+    TextInput,
+    TouchableWithoutFeedback,
+    Keyboard,
 } from 'react-native'
 import styled from 'styled-components/native'
-// import Video from 'react-native-video'
 import { Video, AVPlaybackStatus } from 'expo-av'
+import { Actionsheet, useDisclose, Input } from 'native-base'
+import { formatPhoneNumber } from '../helpers/logic'
+
 const { width, height } = Dimensions.get('window')
 
 const BackgroundVideo = () => {
     const video = React.useRef(null)
     const [status, setStatus] = React.useState({})
-    const buttonHandler = () => {
-        console.log('hey')
+    const [phoneNumber, setPhoneNumber] = React.useState('')
+
+    const { isOpen, onOpen, onClose } = useDisclose()
+
+    const DismissKeyboard = ({ children }) => {
+        return (
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                {children}
+            </TouchableWithoutFeedback>
+        )
     }
+
+    const handlePhoneNumberInput = e => {
+        // this is where we'll call our future formatPhoneNumber function that we haven't written yet.
+        const formattedPhoneNumber = formatPhoneNumber(e)
+        // we'll set the input value using our setInputValue
+        setPhoneNumber(formattedPhoneNumber)
+    }
+
     return (
         <View>
             <Video
@@ -39,23 +58,7 @@ const BackgroundVideo = () => {
                 </TextDescription>
                 <ButtonWrapper>
                     <Fragment>
-                        {/* <Button
-                            style={{
-                                color: 'black',
-                            }}
-                            title="Create Account"
-                            onPress={buttonHandler}
-                        />
-                        <HeyButton
-                            title="Create Account"
-                            onPress={buttonHandler}
-                        /> */}
-                        <Pressable
-                            style={styles.button}
-                            onPress={() => {
-                                console.log('hey')
-                            }}
-                        >
+                        <Pressable style={styles.button} onPress={onOpen}>
                             <Text style={styles.text}>Create Account</Text>
                         </Pressable>
 
@@ -63,12 +66,69 @@ const BackgroundVideo = () => {
                     </Fragment>
                 </ButtonWrapper>
             </Wrapper>
+
+            <Actionsheet
+                isOpen={isOpen}
+                onClose={onClose}
+                _backdrop={false}
+                useRNModal={true}
+                disableOverlay={false}
+            >
+                <TouchableWithoutFeedback
+                    onPress={() => {
+                        Keyboard.dismiss()
+                    }}
+                >
+                    <Actionsheet.Content height={'lg'}>
+                        {/* <Actionsheet.Item>Option 1</Actionsheet.Item>
+                    <Actionsheet.Item>Option 2</Actionsheet.Item>
+                    <Actionsheet.Item>Option 3</Actionsheet.Item> */}
+                        {/* <Input
+                        marginTop={50}
+                        width={'xs'}
+                        height={'10'}
+                        backgroundColor={'white'}
+                        borderWidth="0"
+                        style={styles.phoneNumberInput}
+                        keyboardType="numeric"
+                    /> */}
+                        <TextInput
+                            keyboardType="numeric"
+                            style={styles.input}
+                            onChangeText={text => {
+                                handlePhoneNumberInput(text)
+                            }}
+                            value={phoneNumber}
+                            placeholder="Phone Number"
+                            placeholderTextColor={'gray'}
+                        />
+                    </Actionsheet.Content>
+                </TouchableWithoutFeedback>
+            </Actionsheet>
         </View>
+        // </TouchableWithoutFeedback>
     )
 }
 export default BackgroundVideo
 
 const styles = StyleSheet.create({
+    input: {
+        // fontFamily: 'Aleo, serif',
+        boxShadowBottom: '4px 4px 4px black',
+        height: 40,
+        width: '75%',
+        margin: 12,
+        borderWidth: 0,
+        padding: 10,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        backgroundColor: 'white',
+        shadowOpacity: 0.2,
+        shadowRadius: 6.68,
+    },
     backgroundVideo: {
         height: height,
         position: 'absolute',
@@ -87,23 +147,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 20,
         borderRadius: 24,
-
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        // paddingVertical: 12,
-        // paddingHorizontal: 32,
-        // borderRadius: 4,
-        // elevation: 3,
-        // backgroundColor: 'black',
     },
     text: {
         textTransform: 'uppercase',
-        // fontSize: 14,
-        // lineHeight: 21,
         fontWeight: 'bold',
         letterSpacing: 3,
         color: 'black',
         textAlign: 'center',
+    },
+    phoneNumberInput: {
+        display: 'none',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowRadius: 10,
+        shadowOpacity: 1,
     },
 })
 

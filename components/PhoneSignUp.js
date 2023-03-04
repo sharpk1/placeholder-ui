@@ -7,13 +7,12 @@ import {
     Center,
     NativeBaseProvider,
 } from 'native-base'
-import QRCodeGenerator from './QRCode'
 
-const BottomSheet = () => {
+const PhoneSignUp = () => {
     const { isOpen, onOpen, onClose } = useDisclose()
     return (
         <>
-            <Button onPress={onOpen}>Show QR Code</Button>
+            {/* <Button onPress={onOpen}>Show QR Code</Button> */}
 
             <Actionsheet
                 isOpen={isOpen}
@@ -26,7 +25,6 @@ const BottomSheet = () => {
                     {/* <Actionsheet.Item>Option 1</Actionsheet.Item>
                     <Actionsheet.Item>Option 2</Actionsheet.Item>
                     <Actionsheet.Item>Option 3</Actionsheet.Item> */}
-                    <QRCodeGenerator />
                     <Text
                         style={{
                             marginTop: 50,
@@ -52,11 +50,13 @@ const styles = StyleSheet.create({
     },
 })
 
+// export default PhoneSignUp
+
 export default () => {
     return (
         <NativeBaseProvider>
             <Center px="3">
-                <BottomSheet />
+                <PhoneSignUp />
             </Center>
         </NativeBaseProvider>
     )

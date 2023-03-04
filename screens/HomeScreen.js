@@ -14,22 +14,22 @@ export default function HomeScreen({ navigation }) {
         'https://assets.website-files.com/60f616111b115763029724b7/614b662d740582085a3c52aa_612ea1f1255d20384de10b86_alternative-releaf-dispensary-libby-montana%20(1)%20-%20Copy.jpg',
     ]
 
-    useEffect(() => {
-        async function fetchData() {
-            axios
-                .get('http://192.168.1.14:8000/users')
-                .then(response => {
-                    const res = response.data
-                    res.forEach(element => {
-                        console.log(element.firstName)
-                    })
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-        }
-        fetchData()
-    }, [])
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         axios
+    //             .get('http://192.168.1.14:8000/users')
+    //             .then(response => {
+    //                 const res = response.data
+    //                 res.forEach(element => {
+    //                     console.log(element.firstName)
+    //                 })
+    //             })
+    //             .catch(err => {
+    //                 console.log(err)
+    //             })
+    //     }
+    //     fetchData()
+    // }, [])
 
     return (
         <NativeBaseProvider>

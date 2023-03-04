@@ -84,14 +84,14 @@ export default function SecondScreeniOS({ route, navigation }) {
                             size="xs"
                         />
                     </TouchableOpacity> */}
-                    {/* <BottomSheet /> */}
+                    <BottomSheet />
                     <View
                         style={{
                             borderBottomColor: 'black',
                             borderBottomWidth: StyleSheet.hairlineWidth,
                         }}
                     />
-                    <BottomSheet />
+                    {/* <BottomSheet /> */}
                     <View style={{ marginTop: 10 }}>
                         {imageArray.map((image, index) => {
                             return <Deal2 key={index} image={image} />
