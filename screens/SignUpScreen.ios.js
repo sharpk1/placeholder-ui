@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useEffect } from 'react'
 import {
     Text,
     View,
@@ -13,23 +13,46 @@ import styled from 'styled-components/native'
 import { Video, AVPlaybackStatus } from 'expo-av'
 import { Actionsheet, useDisclose, Input } from 'native-base'
 import { formatPhoneNumber } from '../helpers/logic'
+import Animated, {
+    Transition,
+    Transitioning,
+    BounceIn,
+    FadeInRight,
+    FadeOutLeft,
+    SlideInRight,
+} from 'react-native-reanimated'
 
 const { width, height } = Dimensions.get('window')
 
+const transition = (
+    <Transition.Together>
+        <Transition.In type="slide-right" durationMs={200} />
+        <Transition.Change />
+        <Transition.Out type="slide-left" durationMs={200} />
+    </Transition.Together>
+)
+
 const BackgroundVideo = () => {
+    const ref = React.useRef(null)
     const video = React.useRef(null)
     const [status, setStatus] = React.useState({})
     const [phoneNumber, setPhoneNumber] = React.useState('')
+    const [isSignUp, setIsSignUp] = React.useState(false)
+    const [isVerify, setIsVerify] = React.useState(false)
 
     const { isOpen, onOpen, onClose } = useDisclose()
 
-    const DismissKeyboard = ({ children }) => {
-        return (
-            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                {children}
-            </TouchableWithoutFeedback>
-        )
+    const refInput = React.useRef(null)
+
+    if (isSignUp) {
+        refInput.current?.focus()
+    } else {
+        refInput.current?.blur()
     }
+
+    useEffect(() => {
+        ref.current?.animateNextTransition()
+    }, [isVerify])
 
     const handlePhoneNumberInput = e => {
         // this is where we'll call our future formatPhoneNumber function that we haven't written yet.
@@ -58,7 +81,13 @@ const BackgroundVideo = () => {
                 </TextDescription>
                 <ButtonWrapper>
                     <Fragment>
-                        <Pressable style={styles.button} onPress={onOpen}>
+                        <Pressable
+                            style={styles.button}
+                            onPress={() => {
+                                onOpen()
+                                setIsSignUp(true)
+                            }}
+                        >
                             <Text style={styles.text}>Create Account</Text>
                         </Pressable>
 
@@ -77,6 +106,7 @@ const BackgroundVideo = () => {
                 <TouchableWithoutFeedback
                     onPress={() => {
                         Keyboard.dismiss()
+                        setIsSignUp(false)
                     }}
                 >
                     <Actionsheet.Content height={'lg'}>
@@ -92,16 +122,95 @@ const BackgroundVideo = () => {
                         style={styles.phoneNumberInput}
                         keyboardType="numeric"
                     /> */}
-                        <TextInput
-                            keyboardType="numeric"
-                            style={styles.input}
-                            onChangeText={text => {
-                                handlePhoneNumberInput(text)
-                            }}
-                            value={phoneNumber}
-                            placeholder="Phone Number"
-                            placeholderTextColor={'gray'}
-                        />
+                        {isVerify === false ? (
+                            <Transitioning.View
+                                ref={ref}
+                                transition={transition}
+                            >
+                                <TextInput
+                                    ref={refInput}
+                                    keyboardType="numeric"
+                                    style={styles.input}
+                                    onChangeText={text => {
+                                        handlePhoneNumberInput(text)
+                                    }}
+                                    value={phoneNumber}
+                                    placeholder="Phone Number"
+                                    placeholderTextColor={'gray'}
+                                    onFocus={() => {
+                                        setIsSignUp(true)
+                                    }}
+                                />
+                                <Pressable
+                                    disabled={phoneNumber === ''}
+                                    style={styles.signUpButton}
+                                    onPress={() => {
+                                        ref.current.animateNextTransition()
+                                        setIsVerify(true)
+                                    }}
+                                >
+                                    <Text style={styles.text}>Continue</Text>
+                                </Pressable>
+                            </Transitioning.View>
+                        ) : (
+                            <Transitioning.View
+                                ref={ref}
+                                transition={transition}
+                            >
+                                <TextInput
+                                    ref={refInput}
+                                    keyboardType="numeric"
+                                    style={styles.input}
+                                    onChangeText={text => {
+                                        handlePhoneNumberInput(text)
+                                    }}
+                                    value={phoneNumber}
+                                    placeholder="Phone Number"
+                                    placeholderTextColor={'gray'}
+                                    onFocus={() => {
+                                        setIsSignUp(true)
+                                    }}
+                                />
+                                <TextInput
+                                    ref={refInput}
+                                    keyboardType="numeric"
+                                    style={styles.input}
+                                    onChangeText={text => {
+                                        handlePhoneNumberInput(text)
+                                    }}
+                                    value={phoneNumber}
+                                    placeholder="Phone Number"
+                                    placeholderTextColor={'gray'}
+                                    onFocus={() => {
+                                        setIsSignUp(true)
+                                    }}
+                                />
+                                <TextInput
+                                    ref={refInput}
+                                    keyboardType="numeric"
+                                    style={styles.input}
+                                    onChangeText={text => {
+                                        handlePhoneNumberInput(text)
+                                    }}
+                                    value={phoneNumber}
+                                    placeholder="Phone Number"
+                                    placeholderTextColor={'gray'}
+                                    onFocus={() => {
+                                        setIsSignUp(true)
+                                    }}
+                                />
+                                <Pressable
+                                    disabled={phoneNumber === ''}
+                                    style={styles.signUpButton}
+                                    onPress={() => {
+                                        ref.current.animateNextTransition()
+                                        setIsVerify(false)
+                                    }}
+                                >
+                                    <Text style={styles.text}>Verify</Text>
+                                </Pressable>
+                            </Transitioning.View>
+                        )}
                     </Actionsheet.Content>
                 </TouchableWithoutFeedback>
             </Actionsheet>
@@ -112,11 +221,24 @@ const BackgroundVideo = () => {
 export default BackgroundVideo
 
 const styles = StyleSheet.create({
+    signUpButton: {
+        width: 250,
+        backgroundColor: '#44e36f',
+        padding: 15,
+        border: '1px solid #f3f8ff ',
+        justifyContent: 'center',
+        marginTop: 20,
+        borderRadius: 24,
+        alignSelf: 'center',
+    },
     input: {
-        // fontFamily: 'Aleo, serif',
+        marginTop: 40,
+        fontSize: '20',
+        textAlign: 'center',
         boxShadowBottom: '4px 4px 4px black',
-        height: 40,
+        height: 50,
         width: '75%',
+        minWidth: 300,
         margin: 12,
         borderWidth: 0,
         padding: 10,
@@ -128,6 +250,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         shadowOpacity: 0.2,
         shadowRadius: 6.68,
+        borderRadius: 24,
     },
     backgroundVideo: {
         height: height,
