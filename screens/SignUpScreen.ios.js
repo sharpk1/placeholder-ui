@@ -21,6 +21,7 @@ import Animated, {
     FadeOutLeft,
     SlideInRight,
 } from 'react-native-reanimated'
+import axios from 'axios'
 
 const { width, height } = Dimensions.get('window')
 
@@ -36,7 +37,11 @@ const BackgroundVideo = () => {
     const ref = React.useRef(null)
     const video = React.useRef(null)
     const [status, setStatus] = React.useState({})
-    const [phoneNumber, setPhoneNumber] = React.useState('')
+    const [phoneNumberDisplay, setPhoneNumberDisplay] = React.useState('')
+    const [phoneNumberValue, setPhoneNumberValue] = React.useState('')
+    const [verfication, setVerification] = React.useState('')
+    const [verificationStatus, setVerificationStatus] =
+        React.useState('Not Authenticated')
     const [isSignUp, setIsSignUp] = React.useState(false)
     const [isVerify, setIsVerify] = React.useState(false)
 
@@ -50,15 +55,44 @@ const BackgroundVideo = () => {
         refInput.current?.blur()
     }
 
+    const getPhoneVerificationCode = async (phone, channel) => {
+        await axios
+            .get(
+                `http://localhost:8000/phone/login?phone=${phone}&channel=${channel}`,
+            )
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    const verifyPhoneNumber = async (phone, code) => {
+        console.log(phone)
+        await axios
+            .get(
+                `http://localhost:8000/phone/verify?phone=${phone}&code=${code}`,
+            )
+            .then(res => {
+                if (res.data.status === 'approved')
+                    setVerificationStatus('HURRAY YOURE APPROVED!!')
+                console.log(res.data.status)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
     useEffect(() => {
         ref.current?.animateNextTransition()
     }, [isVerify])
 
-    const handlePhoneNumberInput = e => {
+    const handlePhoneNumberDisplay = e => {
         // this is where we'll call our future formatPhoneNumber function that we haven't written yet.
         const formattedPhoneNumber = formatPhoneNumber(e)
         // we'll set the input value using our setInputValue
-        setPhoneNumber(formattedPhoneNumber)
+        setPhoneNumberDisplay(formattedPhoneNumber)
     }
 
     return (
@@ -132,9 +166,10 @@ const BackgroundVideo = () => {
                                     keyboardType="numeric"
                                     style={styles.input}
                                     onChangeText={text => {
-                                        handlePhoneNumberInput(text)
+                                        handlePhoneNumberDisplay(text)
+                                        setPhoneNumberValue(text)
                                     }}
-                                    value={phoneNumber}
+                                    value={phoneNumberDisplay}
                                     placeholder="Phone Number"
                                     placeholderTextColor={'gray'}
                                     onFocus={() => {
@@ -142,11 +177,15 @@ const BackgroundVideo = () => {
                                     }}
                                 />
                                 <Pressable
-                                    disabled={phoneNumber === ''}
+                                    disabled={phoneNumberDisplay === ''}
                                     style={styles.signUpButton}
-                                    onPress={() => {
+                                    onPress={async () => {
                                         ref.current.animateNextTransition()
                                         setIsVerify(true)
+                                        await getPhoneVerificationCode(
+                                            phoneNumberValue,
+                                            'sms',
+                                        )
                                     }}
                                 >
                                     <Text style={styles.text}>Continue</Text>
@@ -162,9 +201,23 @@ const BackgroundVideo = () => {
                                     keyboardType="numeric"
                                     style={styles.input}
                                     onChangeText={text => {
-                                        handlePhoneNumberInput(text)
+                                        setVerification(text)
                                     }}
-                                    value={phoneNumber}
+                                    value={verfication}
+                                    placeholder="Phone Number"
+                                    placeholderTextColor={'gray'}
+                                    onFocus={() => {
+                                        setIsSignUp(true)
+                                    }}
+                                />
+                                {/* <TextInput
+                                    ref={refInput}
+                                    keyboardType="numeric"
+                                    style={styles.input}
+                                    onChangeText={text => {
+                                        handlePhoneNumberDisplay(text)
+                                    }}
+                                    value={phoneNumberDisplay}
                                     placeholder="Phone Number"
                                     placeholderTextColor={'gray'}
                                     onFocus={() => {
@@ -176,41 +229,32 @@ const BackgroundVideo = () => {
                                     keyboardType="numeric"
                                     style={styles.input}
                                     onChangeText={text => {
-                                        handlePhoneNumberInput(text)
+                                        handlePhoneNumberDisplay(text)
                                     }}
-                                    value={phoneNumber}
+                                    value={phoneNumberDisplay}
                                     placeholder="Phone Number"
                                     placeholderTextColor={'gray'}
                                     onFocus={() => {
                                         setIsSignUp(true)
                                     }}
-                                />
-                                <TextInput
-                                    ref={refInput}
-                                    keyboardType="numeric"
-                                    style={styles.input}
-                                    onChangeText={text => {
-                                        handlePhoneNumberInput(text)
-                                    }}
-                                    value={phoneNumber}
-                                    placeholder="Phone Number"
-                                    placeholderTextColor={'gray'}
-                                    onFocus={() => {
-                                        setIsSignUp(true)
-                                    }}
-                                />
+                                /> */}
                                 <Pressable
-                                    disabled={phoneNumber === ''}
+                                    disabled={phoneNumberDisplay === ''}
                                     style={styles.signUpButton}
-                                    onPress={() => {
+                                    onPress={async () => {
                                         ref.current.animateNextTransition()
                                         setIsVerify(false)
+                                        await verifyPhoneNumber(
+                                            phoneNumberValue,
+                                            verfication,
+                                        )
                                     }}
                                 >
                                     <Text style={styles.text}>Verify</Text>
                                 </Pressable>
                             </Transitioning.View>
                         )}
+                        <Text>{verificationStatus}</Text>
                     </Actionsheet.Content>
                 </TouchableWithoutFeedback>
             </Actionsheet>
