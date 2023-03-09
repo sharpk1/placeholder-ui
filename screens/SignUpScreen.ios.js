@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import {
     Text,
     View,
@@ -10,17 +10,10 @@ import {
     Keyboard,
 } from 'react-native'
 import styled from 'styled-components/native'
-import { Video, AVPlaybackStatus } from 'expo-av'
-import { Actionsheet, useDisclose, Input } from 'native-base'
+import { Video } from 'expo-av'
+import { Actionsheet, useDisclose } from 'native-base'
 import { formatPhoneNumber } from '../helpers/logic'
-import Animated, {
-    Transition,
-    Transitioning,
-    BounceIn,
-    FadeInRight,
-    FadeOutLeft,
-    SlideInRight,
-} from 'react-native-reanimated'
+import { Transition, Transitioning } from 'react-native-reanimated'
 import axios from 'axios'
 
 const { width, height } = Dimensions.get('window')
@@ -29,7 +22,7 @@ const transition = (
     <Transition.Together>
         <Transition.In type="slide-right" durationMs={200} />
         <Transition.Change />
-        <Transition.Out type="slide-left" durationMs={200} />
+        <Transition.Out type="fade" durationMs={200} />
     </Transition.Together>
 )
 
@@ -39,7 +32,7 @@ const BackgroundVideo = () => {
     const [status, setStatus] = React.useState({})
     const [phoneNumberDisplay, setPhoneNumberDisplay] = React.useState('')
     const [phoneNumberValue, setPhoneNumberValue] = React.useState('')
-    const [verfication, setVerification] = React.useState('')
+    const [verfication, setVerification] = React.useState([])
     const [verificationStatus, setVerificationStatus] =
         React.useState('Not Authenticated')
     const [isSignUp, setIsSignUp] = React.useState(false)
@@ -68,6 +61,8 @@ const BackgroundVideo = () => {
             })
     }
 
+    // Accept the message into the first box. Send that into a handler. Parse it out to the state and just fill the rest of the boxes
+
     const verifyPhoneNumber = async (phone, code) => {
         await axios
             .get(
@@ -92,6 +87,10 @@ const BackgroundVideo = () => {
         const formattedPhoneNumber = formatPhoneNumber(e)
         // we'll set the input value using our setInputValue
         setPhoneNumberDisplay(formattedPhoneNumber)
+    }
+
+    const verificationCodeHandler = code => {
+        setVerification(code)
     }
 
     return (
@@ -197,54 +196,104 @@ const BackgroundVideo = () => {
                             <Transitioning.View
                                 ref={ref}
                                 transition={transition}
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                }}
                             >
-                                <TextInput
-                                    ref={refInput}
-                                    keyboardType="numeric"
-                                    style={styles.input}
-                                    onChangeText={text => {
-                                        setVerification(text)
+                                <View
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
                                     }}
-                                    value={verfication}
-                                    placeholder="Phone Number"
-                                    placeholderTextColor={'gray'}
-                                    onFocus={() => {
-                                        setIsSignUp(true)
-                                    }}
-                                />
-                                {/* <TextInput
-                                    ref={refInput}
-                                    keyboardType="numeric"
-                                    style={styles.input}
-                                    onChangeText={text => {
-                                        handlePhoneNumberDisplay(text)
-                                    }}
-                                    value={phoneNumberDisplay}
-                                    placeholder="Phone Number"
-                                    placeholderTextColor={'gray'}
-                                    onFocus={() => {
-                                        setIsSignUp(true)
-                                    }}
-                                />
-                                <TextInput
-                                    ref={refInput}
-                                    keyboardType="numeric"
-                                    style={styles.input}
-                                    onChangeText={text => {
-                                        handlePhoneNumberDisplay(text)
-                                    }}
-                                    value={phoneNumberDisplay}
-                                    placeholder="Phone Number"
-                                    placeholderTextColor={'gray'}
-                                    onFocus={() => {
-                                        setIsSignUp(true)
-                                    }}
-                                /> */}
+                                >
+                                    <TextInput
+                                        keyboardType="numeric"
+                                        onChangeText={text => {
+                                            // Take the first number of the text and place it in this input
+                                            const exploded = text.split('')
+                                            verificationCodeHandler(exploded)
+                                        }}
+                                        display={'none'}
+                                    />
+                                    <TextInput
+                                        // ref={refInput}
+                                        keyboardType="numeric"
+                                        style={styles.verificationInput}
+                                        onChangeText={text => {
+                                            // Take the first number of the text and place it in this input
+                                            const exploded = text.split('')
+                                            verificationCodeHandler(exploded)
+                                        }}
+                                        value={verfication[0] || ''}
+                                        // placeholder="Phone Number"
+                                        placeholderTextColor={'gray'}
+                                    />
+                                    <TextInput
+                                        // ref={refInput}
+                                        keyboardType="numeric"
+                                        style={styles.verificationInput}
+                                        onChangeText={text => {
+                                            // setVerification(text)
+                                        }}
+                                        value={verfication[1] || ''}
+                                        // placeholder="Phone Number"
+                                        placeholderTextColor={'gray'}
+                                    />
+                                    <TextInput
+                                        // ref={refInput}
+                                        keyboardType="numeric"
+                                        style={styles.verificationInput}
+                                        onChangeText={text => {
+                                            // setVerification(text)
+                                        }}
+                                        value={verfication[2] || ''}
+                                        // placeholder="Phone Number"
+                                        placeholderTextColor={'gray'}
+                                    />
+                                    <TextInput
+                                        // ref={refInput}
+                                        keyboardType="numeric"
+                                        style={styles.verificationInput}
+                                        onChangeText={text => {
+                                            // setVerification(text)
+                                        }}
+                                        value={verfication[3] || ''}
+                                        // placeholder="Phone Number"
+                                        placeholderTextColor={'gray'}
+                                    />
+                                    <TextInput
+                                        // ref={refInput}
+                                        keyboardType="numeric"
+                                        style={styles.verificationInput}
+                                        onChangeText={text => {
+                                            // setVerification(text)
+                                        }}
+                                        value={verfication[4] || ''}
+                                        // placeholder="Phone Number"
+                                        placeholderTextColor={'gray'}
+                                    />
+                                    <TextInput
+                                        // ref={refInput}
+                                        keyboardType="numeric"
+                                        style={styles.verificationInput}
+                                        onChangeText={text => {
+                                            // setVerification(text)
+                                        }}
+                                        value={verfication[5] || ''}
+                                        // placeholder="Phone Number"
+                                        placeholderTextColor={'gray'}
+                                        // onFocus={() => {
+                                        //     setIsSignUp(true)
+                                        // }}
+                                    />
+                                </View>
+
                                 <Pressable
                                     disabled={phoneNumberDisplay === ''}
                                     style={styles.signUpButton}
                                     onPress={async () => {
-                                        ref.current.animateNextTransition()
+                                        // ref.current.animateNextTransition()
                                         setIsVerify(false)
                                         await verifyPhoneNumber(
                                             phoneNumberValue,
@@ -267,6 +316,27 @@ const BackgroundVideo = () => {
 export default BackgroundVideo
 
 const styles = StyleSheet.create({
+    verificationInput: {
+        marginTop: 40,
+        fontSize: '20',
+        textAlign: 'center',
+        boxShadowBottom: '4px 4px 4px black',
+        height: 50,
+        // width: '25%',
+        minWidth: 50,
+        margin: 6,
+        borderWidth: 0,
+        padding: 10,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        backgroundColor: 'white',
+        shadowOpacity: 0.2,
+        shadowRadius: 6.68,
+        borderRadius: 12,
+    },
     signUpButton: {
         width: 250,
         backgroundColor: '#44e36f',
