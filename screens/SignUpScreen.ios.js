@@ -55,24 +55,23 @@ const BackgroundVideo = () => {
         refInput.current?.blur()
     }
 
-    const getPhoneVerificationCode = async (phone, channel) => {
+    const getPhoneVerificationCode = async phone => {
         await axios
             .get(
-                `http://localhost:8000/phone/login?phone=${phone}&channel=${channel}`,
+                `http://192.168.1.14:8000/phone/login?phone=${phone}&channel=sms`,
             )
             .then(res => {
                 console.log(res)
             })
             .catch(err => {
-                console.log(err)
+                console.log(err.message)
             })
     }
 
     const verifyPhoneNumber = async (phone, code) => {
-        console.log(phone)
         await axios
             .get(
-                `http://localhost:8000/phone/verify?phone=${phone}&code=${code}`,
+                `http://192.168.1.14:8000/phone/verify?phone=${phone}&code=${code}`,
             )
             .then(res => {
                 if (res.data.status === 'approved')
@@ -167,7 +166,11 @@ const BackgroundVideo = () => {
                                     style={styles.input}
                                     onChangeText={text => {
                                         handlePhoneNumberDisplay(text)
-                                        setPhoneNumberValue(text)
+                                        let stripped = text.replace(
+                                            /[^0-9]/g,
+                                            '',
+                                        )
+                                        setPhoneNumberValue(stripped)
                                     }}
                                     value={phoneNumberDisplay}
                                     placeholder="Phone Number"
@@ -184,7 +187,6 @@ const BackgroundVideo = () => {
                                         setIsVerify(true)
                                         await getPhoneVerificationCode(
                                             phoneNumberValue,
-                                            'sms',
                                         )
                                     }}
                                 >
