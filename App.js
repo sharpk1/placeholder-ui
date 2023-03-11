@@ -24,15 +24,21 @@ export default function App() {
         <NativeBaseProvider>
             <NavigationContainer>
                 <Stack.Navigator
-                    screenOptions={{
-                        headerShown: false,
-                    }}
+                // screenOptions={{
+                //     headerShown: false,
+                // }}
                 >
                     <Stack.Screen
-                        name="Home"
+                        name="SignUp"
                         component={SignUpScreeniOS}
-                        options={{ title: '' }}
+                        options={{ title: '', headerShown: false }}
                     />
+                    <Stack.Screen
+                        name="Home"
+                        component={HomeScreen}
+                        options={{ title: '', headerShown: false }}
+                    />
+
                     {Platform.OS === 'ios' ? (
                         <Stack.Screen
                             name="Second"
@@ -47,11 +53,11 @@ export default function App() {
                         />
                     )}
 
-                    <Stack.Screen
+                    {/* <Stack.Screen
                         name="Login"
                         component={LoginScreen}
                         options={{ title: 'Login' }}
-                    />
+                    /> */}
                 </Stack.Navigator>
             </NavigationContainer>
         </NativeBaseProvider>

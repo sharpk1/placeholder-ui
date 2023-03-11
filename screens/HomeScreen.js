@@ -1,11 +1,27 @@
 import { StatusBar } from 'expo-status-bar'
 import { NativeBaseProvider, ScrollView } from 'native-base'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
 import Example from '../Card'
 import axios from 'axios'
+import ScrollAnimation from '../components/ScrollAnimation'
+import TestAnimation from '../components/TestAnimation'
+import Animated, {
+    useSharedValue,
+    useAnimatedStyle,
+    withSpring,
+    EasingNode,
+    FadeInLeft,
+    BounceInUp,
+    BounceIn,
+    FadeInUp,
+} from 'react-native-reanimated'
+import LottieView from 'lottie-react-native'
+import VerifiedCheckMark from '../components/VerifiedCheckMark'
 
 export default function HomeScreen({ navigation }) {
+    const [fadeAnim] = useState(new Animated.Value(0))
+
     const dispos = [
         'https://beyond-hello.com/wp-content/uploads/elementor/thumbs/grover-beach-beyond-hello-dispensary-interior-pooj5d3vn5alhx5qu80silb3l65dhoum8fv63r3326.jpg',
         'https://assets3.thrillist.com/v1/image/3068046/960x640/flatten;crop;webp=auto;jpeg_quality=60.jpg',
@@ -31,28 +47,47 @@ export default function HomeScreen({ navigation }) {
     //     fetchData()
     // }, [])
 
+    useEffect(() => {
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 1000,
+            easing: EasingNode.bounce,
+        }).start()
+    }, [])
+
     return (
         <NativeBaseProvider>
             <ScrollView>
                 <View style={styles.container}>
                     <StatusBar style="auto" />
-                    <Button
+                    {/* <Button
                         title="Click me"
                         onPress={() => navigation.navigate('Login')}
-                    />
-
+                    /> */}
+                    {/* <ScrollAnimation />
+                    <TestAnimation /> */}
                     {dispos.map(image => {
                         return (
-                            <TouchableOpacity
-                                key={image}
-                                onPress={() => {
-                                    navigation.navigate('Second', {
-                                        image: image,
-                                    })
-                                }}
-                            >
-                                <Example fileName={image} />
-                            </TouchableOpacity>
+                            <View key={image}>
+                                <Animated.View
+                                    style={{
+                                        opacity: fadeAnim,
+                                    }}
+                                    key={image}
+                                    entering={FadeInUp}
+                                >
+                                    <TouchableOpacity
+                                        key={image}
+                                        onPress={() => {
+                                            navigation.navigate('Second', {
+                                                image: image,
+                                            })
+                                        }}
+                                    >
+                                        <Example fileName={image} />
+                                    </TouchableOpacity>
+                                </Animated.View>
+                            </View>
                         )
                     })}
                 </View>
@@ -67,7 +102,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        // marginTop: 100
+        marginTop: 75,
     },
     action: {
         margin: 100,
