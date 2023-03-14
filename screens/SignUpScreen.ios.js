@@ -50,6 +50,7 @@ const BackgroundVideo = ({ navigation }) => {
     const [phoneNumberDisplay, setPhoneNumberDisplay] = React.useState('')
     const [phoneNumberValue, setPhoneNumberValue] = React.useState('')
     const [verfication, setVerification] = React.useState([])
+    const [showVerification, setShowVerification] = React.useState(false)
     // const [verificationStatus, setVerificationStatus] =
     //     React.useState('Not Authenticated')
     const [isSignUp, setIsSignUp] = React.useState(false)
@@ -60,11 +61,43 @@ const BackgroundVideo = ({ navigation }) => {
 
     const refInput = React.useRef(null)
 
-    if (isSignUp) {
-        refInput.current?.focus()
-    } else {
-        refInput.current?.blur()
-    }
+    const refVerificationCodeInput = React.useRef(null)
+    const refVerificationCodeInput1 = React.useRef(null)
+    const refVerificationCodeInput2 = React.useRef(null)
+    const refVerificationCodeInput3 = React.useRef(null)
+    const refVerificationCodeInput4 = React.useRef(null)
+    const refVerificationCodeInput5 = React.useRef(null)
+    const refHiddenTextInput = React.useRef(null)
+
+    let references = [
+        refVerificationCodeInput,
+        refVerificationCodeInput1,
+        refVerificationCodeInput2,
+        refVerificationCodeInput3,
+        refVerificationCodeInput4,
+        refVerificationCodeInput5,
+    ]
+
+    // if (isSignUp) {
+    //     refInput.current?.focus()
+    // } else {
+    //     refInput.current?.blur()
+    // }
+
+    useEffect(() => {
+        if (isSignUp) {
+            refInput.current?.focus()
+        } else {
+            refInput.current?.blur()
+        }
+
+        // if (isVerify) {
+        //     console.log(isVerify)
+        //     refVerificationCodeInput.current?.focus()
+        // } else {
+        //     refVerificationCodeInput.current?.blur()
+        // }
+    }, [isSignUp, isVerify])
 
     useEffect(() => {
         Animated.timing(fadeAnim, {
@@ -99,6 +132,7 @@ const BackgroundVideo = ({ navigation }) => {
                 navigation.navigate('Home')
             }, 2000)
         } else {
+            code = code.join('')
             await axios
                 .get(
                     `http://192.168.1.14:8000/phone/verify?phone=${phone}&code=${code}`,
@@ -107,11 +141,81 @@ const BackgroundVideo = ({ navigation }) => {
                     if (res.data.status === 'approved') setIsVerified(true)
                     // setVerificationStatus('HURRAY YOURE APPROVED!!')
                     console.log(res.data.status)
+                    setShowVerification(true)
+                    setIsVerify(false)
+                    setTimeout(function () {
+                        onClose()
+                        navigation.navigate('Home')
+                    }, 2000)
                 })
                 .catch(err => {
                     console.log(err)
                 })
         }
+    }
+
+    const renderVerificationCodeInputs = references => {
+        let inputs = [0, 1, 2, 3, 4, 5]
+
+        return inputs.map(input => {
+            if (input === 0) {
+                return (
+                    <>
+                        <TextInput
+                            autoFocus={true}
+                            ref={refHiddenTextInput}
+                            keyboardType="numeric"
+                            onChangeText={text => {
+                                // Take the first number of the text and place it in this input
+                                const exploded = text.split('')
+                                verificationCodeHandler(exploded)
+                            }}
+                            display={'none'}
+                        />
+                        <TextInput
+                            key={input}
+                            ref={references[0]}
+                            keyboardType="numeric"
+                            style={styles.verificationInput}
+                            textContentType={''}
+                            onChangeText={text => {
+                                // Take the first number of the text and place it in this input
+                                if (text.length === 6) {
+                                    refHiddenTextInput.current?.focus()
+                                    // const exploded = text.split('')
+                                    // verificationCodeHandler(exploded)
+                                } else {
+                                    // set the first element to text
+                                    // go to the next textbox
+                                    setVerification([text])
+
+                                    references[input + 1].current?.focus()
+                                }
+                            }}
+                            value={verfication[0] || ''}
+                        />
+                    </>
+                )
+            } else {
+                return (
+                    <TextInput
+                        ref={references[input]}
+                        keyboardType="numeric"
+                        style={styles.verificationInput}
+                        onChangeText={text => {
+                            // setVerification(text)
+                            let temp = [...verfication]
+                            temp[input] = text
+                            setVerification(temp)
+                            console.log(input)
+                            if (input + 1 < 6)
+                                references[input + 1].current?.focus()
+                        }}
+                        value={verfication[input] || ''}
+                    />
+                )
+            }
+        })
     }
 
     useEffect(() => {
@@ -177,7 +281,7 @@ const BackgroundVideo = ({ navigation }) => {
                     }}
                 >
                     <Actionsheet.Content height={'lg'}>
-                        {isVerify === false && isVerified === false ? (
+                        {isVerified === false && isVerify === false ? (
                             <Transitioning.View
                                 ref={ref}
                                 transition={transition}
@@ -210,6 +314,7 @@ const BackgroundVideo = ({ navigation }) => {
                                         await getPhoneVerificationCode(
                                             phoneNumberValue,
                                         )
+                                        // refVerificationCodeInput.current?.focus()
                                     }}
                                 >
                                     <Text style={styles.text}>Continue</Text>
@@ -224,7 +329,9 @@ const BackgroundVideo = ({ navigation }) => {
                                     flexDirection: 'column',
                                 }}
                             >
-                                {isVerified && isVerify == false ? (
+                                {isVerified === true &&
+                                isVerify == false &&
+                                showVerification ? (
                                     <VerifiedCheckMark />
                                 ) : (
                                     <View
@@ -233,70 +340,9 @@ const BackgroundVideo = ({ navigation }) => {
                                             flexDirection: 'row',
                                         }}
                                     >
-                                        <TextInput
-                                            keyboardType="numeric"
-                                            onChangeText={text => {
-                                                // Take the first number of the text and place it in this input
-                                                const exploded = text.split('')
-                                                verificationCodeHandler(
-                                                    exploded,
-                                                )
-                                            }}
-                                            display={'none'}
-                                        />
-                                        <TextInput
-                                            keyboardType="numeric"
-                                            style={styles.verificationInput}
-                                            onChangeText={text => {
-                                                // Take the first number of the text and place it in this input
-                                                const exploded = text.split('')
-                                                verificationCodeHandler(
-                                                    exploded,
-                                                )
-                                            }}
-                                            value={verfication[0] || ''}
-                                        />
-                                        <TextInput
-                                            keyboardType="numeric"
-                                            style={styles.verificationInput}
-                                            onChangeText={text => {
-                                                // setVerification(text)
-                                            }}
-                                            value={verfication[1] || ''}
-                                        />
-                                        <TextInput
-                                            keyboardType="numeric"
-                                            style={styles.verificationInput}
-                                            onChangeText={text => {
-                                                // setVerification(text)
-                                            }}
-                                            value={verfication[2] || ''}
-                                        />
-                                        <TextInput
-                                            // ref={refInput}
-                                            keyboardType="numeric"
-                                            style={styles.verificationInput}
-                                            onChangeText={text => {
-                                                // setVerification(text)
-                                            }}
-                                            value={verfication[3] || ''}
-                                        />
-                                        <TextInput
-                                            keyboardType="numeric"
-                                            style={styles.verificationInput}
-                                            onChangeText={text => {
-                                                // setVerification(text)
-                                            }}
-                                            value={verfication[4] || ''}
-                                        />
-                                        <TextInput
-                                            keyboardType="numeric"
-                                            style={styles.verificationInput}
-                                            onChangeText={text => {
-                                                // setVerification(text)
-                                            }}
-                                            value={verfication[5] || ''}
-                                        />
+                                        {renderVerificationCodeInputs(
+                                            references,
+                                        )}
                                     </View>
                                 )}
 
@@ -313,7 +359,7 @@ const BackgroundVideo = ({ navigation }) => {
                                             style={styles.signUpButton}
                                             onPress={async () => {
                                                 // ref.current.animateNextTransition()
-                                                setIsVerify(false)
+
                                                 await verifyPhoneNumber(
                                                     phoneNumberValue,
                                                     verfication,
