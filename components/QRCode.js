@@ -7,7 +7,10 @@ const QRCodeGenerator = () => {
             <View marginTop={'50px'}>
                 <QRCode
                     size={300}
-                    value="23333f20-3fb8-4706-b70b-fbafdcaa6748"
+                    value={JSON.stringify({
+                        phone_number: '1',
+                        dispensary_id: '61f2f5b6c5e63a60e7ce8e00',
+                    })}
                 />
             </View>
         </>

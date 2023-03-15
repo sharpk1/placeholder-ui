@@ -188,7 +188,6 @@ const BackgroundVideo = ({ navigation }) => {
                                     // set the first element to text
                                     // go to the next textbox
                                     setVerification([text])
-
                                     references[input + 1].current?.focus()
                                 }
                             }}
@@ -212,6 +211,11 @@ const BackgroundVideo = ({ navigation }) => {
                                 references[input + 1].current?.focus()
                         }}
                         value={verfication[input] || ''}
+                        onKeyPress={({ nativeEvent }) => {
+                            if (nativeEvent.key === 'Backspace') {
+                                references[input - 1].current?.focus()
+                            }
+                        }}
                     />
                 )
             }
