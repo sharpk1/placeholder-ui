@@ -38,6 +38,11 @@ export default function App() {
                         component={HomeScreen}
                         options={{ title: '', headerShown: false }}
                     />
+                    <Stack.Screen
+                        name="Scanner"
+                        component={LoginScreen}
+                        options={{ title: 'Scanner' }}
+                    />
 
                     {Platform.OS === 'ios' ? (
                         <Stack.Screen
@@ -52,12 +57,6 @@ export default function App() {
                             options={{ title: 'Second' }}
                         />
                     )}
-
-                    {/* <Stack.Screen
-                        name="Login"
-                        component={LoginScreen}
-                        options={{ title: 'Login' }}
-                    /> */}
                 </Stack.Navigator>
             </NavigationContainer>
         </NativeBaseProvider>

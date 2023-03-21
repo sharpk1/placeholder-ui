@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { TouchableOpacity, StyleSheet, Text } from 'react-native'
 import {
     Button,
     Actionsheet,
@@ -8,12 +8,22 @@ import {
     NativeBaseProvider,
 } from 'native-base'
 import QRCodeGenerator from './QRCode'
+import { useNavigation } from '@react-navigation/native'
 
 const BottomSheet = () => {
+    const navigation = useNavigation()
     const { isOpen, onOpen, onClose } = useDisclose()
     return (
         <>
             <Button onPress={onOpen}>Show QR Code</Button>
+
+            <Button
+                onPress={() => {
+                    navigation.navigate('Scanner')
+                }}
+            >
+                Show Scanner
+            </Button>
 
             <Actionsheet
                 isOpen={isOpen}

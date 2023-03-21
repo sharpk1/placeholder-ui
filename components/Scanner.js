@@ -9,6 +9,7 @@ import {
     NativeBaseProvider,
 } from 'native-base'
 import * as Progress from 'react-native-progress'
+import axios from 'axios'
 
 const Scanner = () => {
     const [hasPermissions, setHasPermissions] = useState(false)
@@ -29,10 +30,25 @@ const Scanner = () => {
         )
     }
 
-    const handleBarCodeScanned = ({ data, type }) => {
+    const handleBarCodeScanned = async ({ data, type }) => {
         setScanData(data)
+        const parsedData = JSON.parse(data)
         console.log(`Data: ${data}`)
         console.log(`Type: ${type}`)
+
+        const body = {
+            phoneNumber: parsedData.phoneNumber,
+            storeId: parsedData.storeId,
+        }
+
+        await axios
+            .post('http://192.168.1.14:8000/users/incrementPunch', body)
+            .then(response => {
+                console.log('Response:', response.data)
+            })
+            .catch(error => {
+                console.error('Error:', error.response.data)
+            })
     }
 
     return (

@@ -8,8 +8,8 @@ const QRCodeGenerator = () => {
                 <QRCode
                     size={300}
                     value={JSON.stringify({
-                        phone_number: '1',
-                        dispensary_id: '61f2f5b6c5e63a60e7ce8e00',
+                        phoneNumber: '8328141282',
+                        storeId: 1,
                     })}
                 />
             </View>
