@@ -1,23 +1,16 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-    Linking,
-    Platform,
-} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, Linking, Button, Platform } from 'react-native'
 import Step from '../components/Step'
 import MyCarousel from '../components/MyCarousel'
 import Ratings from '../components/Ratings'
-import Deal from '../components/Deal'
 import Deal2 from '../components/Deal2'
 import { ScrollView, Stack, Image } from 'native-base'
-import StackExample from '../components/StackExample'
 import BottomSheet from '../components/BottomSheet'
-import Scanner from '../components/Scanner'
+import axios from 'axios'
 
 export default function SecondScreeniOS({ route, navigation }) {
     const { image } = route.params
+    const [punchCard, setPunchCard] = useState({})
 
     const imageArray = [
         'https://images.weedmaps.com/pictures/listings/972/068/143/423733479_dc7c2893-fbdb-41a0-b050-4001ab17c34f.jpg?w=400&h=400&dpr=2&auto=format&fit=crop',
@@ -38,14 +31,42 @@ export default function SecondScreeniOS({ route, navigation }) {
             console.log(error)
         }
     }
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(
+                'http://192.168.1.14:8000/users/loyalty/getPunchCardByStoreId',
+                {
+                    params: {
+                        phoneNumber: '8328141282',
+                        storeId: 1,
+                    },
+                },
+            )
+            console.log('response: ', response.data)
+            setPunchCard(response.data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
 
     return (
         <>
             <ScrollView>
                 <View>
-                    <Step />
+                    {/* revamp this */}
+                    <Step punchCard={punchCard} />
                     {/* On Android you cannot swipe */}
                     <MyCarousel image={image} />
+                    {/* <Button
+                        title="Hello"
+                        onPress={() => {
+                            fetchData()
+                        }}
+                    ></Button> */}
                     <Text style={{ fontSize: '32px', marginLeft: 10 }}>
                         Star Buds
                     </Text>

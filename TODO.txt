@@ -11,5 +11,25 @@ What should the second screen have?
     - make sure to include business hours
 3. A list of deals
     - Have it iterate after 
-    - Loook at groupon 
+    - Look at groupon 
 4. a favorites functionality
+
+5. Opportunity solution tree
+6. competitive analysis 
+7. Connectivity with outside vendors to showcase products - getting the customer through the door
+8. tailor made solution
+9. Making money - pricing model - subscription model
+10. Usability feedback
+11. Ask about 24 hour grace period
+12. Hybrid model?
+13. Credit card
+14. The app being an entity to buy via credit cards
+15. onboarding a customer - 
+16. How seamless is migration? port over old database into the new?
+17. CRM? Rewards? 
+18. Uploading the format or being accepting of existing customers?
+19. Customer discovery - ask about price point, limited version vs. premium version. Pricing?
+20. Competitive research?
+21. Subscription model? 
+
+go to market strategy

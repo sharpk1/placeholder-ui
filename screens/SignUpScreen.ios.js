@@ -250,10 +250,8 @@ const BackgroundVideo = ({ navigation }) => {
             />
 
             <Wrapper>
-                <Title>Join Live And on-demand classes</Title>
-                <TextDescription>
-                    With world-class instructions right here, right now
-                </TextDescription>
+                <Title>PuffPass</Title>
+                <TextDescription>Some example text here</TextDescription>
                 <ButtonWrapper>
                     <Fragment>
                         <Pressable

@@ -28,3 +28,13 @@ export const formatPhoneNumber = value => {
         6,
     )}-${phoneNumber.slice(6, 10)}`
 }
+
+export const generatePunches = requiredPunches => {
+    const punchesArray = ['1st visit']
+
+    for (let i = 2; i <= requiredPunches; i++) {
+        const punchString = `${i}th visit`
+        punchesArray.push(punchString)
+    }
+    return punchesArray
+}

@@ -17,13 +17,13 @@ const BottomSheet = () => {
         <>
             <Button onPress={onOpen}>Show QR Code</Button>
 
-            <Button
+            {/* <Button
                 onPress={() => {
                     navigation.navigate('Scanner')
                 }}
             >
                 Show Scanner
-            </Button>
+            </Button> */}
 
             <Actionsheet
                 isOpen={isOpen}

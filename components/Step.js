@@ -1,17 +1,12 @@
-import React, { useState } from 'react'
-import { ProgressSteps, ProgressStep } from 'react-native-progress-steps'
-import { View, Text } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View } from 'react-native'
 import StepIndicator from 'react-native-step-indicator'
+import { generatePunches } from '../helpers/logic'
 
-const Step = () => {
-    const [currentPosition, setCurrentPosition] = useState(3)
-    const labels = [
-        '1st visit',
-        '2nd visit',
-        '3rd visit',
-        '4th visit',
-        '5th visit',
-    ]
+const Step = props => {
+    const { punchCard } = props
+    const [currentPosition, setCurrentPosition] = useState(2)
+    const [labels, setLabels] = useState([])
     const customStyles = {
         stepIndicatorSize: 25,
         currentStepIndicatorSize: 30,
@@ -36,9 +31,16 @@ const Step = () => {
         currentStepLabelColor: 'green',
     }
 
-    const onPageChange = position => {
-        setCurrentPosition(position)
-    }
+    useEffect(() => {
+        const requiredPunches = punchCard.punchCard?.requiredPunches
+
+        if (requiredPunches !== undefined) {
+            if (requiredPunches) {
+                setLabels(generatePunches(requiredPunches))
+                setCurrentPosition(punchCard.punches)
+            }
+        }
+    }, [punchCard.punchCard?.requiredPunches])
 
     return (
         <View
