@@ -7,6 +7,9 @@ import Deal2 from '../components/Deal2'
 import { ScrollView, Stack, Image } from 'native-base'
 import BottomSheet from '../components/BottomSheet'
 import axios from 'axios'
+import PunchedLeaf from '../components/PunchedLeaf'
+import UnpunchedLeaf from '../components/UnpunchedLeaf'
+import PunchCardLeaf from '../components/PunchCardLeaf'
 
 export default function SecondScreeniOS({ route, navigation }) {
     const { image } = route.params
@@ -56,9 +59,12 @@ export default function SecondScreeniOS({ route, navigation }) {
     return (
         <>
             <ScrollView>
-                <View>
+                <View style={{backgroundColor: '#ffffff'}}>
                     {/* revamp this */}
-                    <Step punchCard={punchCard} />
+                    {/* <Step punchCard={punchCard} /> */}
+                    <PunchCardLeaf/>
+                    {/* <PunchedLeaf width={50} height={50} />
+                    <UnpunchedLeaf width={50} height={50} fill="#000000" /> */}
                     {/* On Android you cannot swipe */}
                     <MyCarousel image={image} />
                     {/* <Button

@@ -48,7 +48,7 @@ export default function App() {
                         <Stack.Screen
                             name="Second"
                             component={SecondScreeniOS}
-                            options={{ title: 'Second' }}
+                            options={{ title: 'Second', headerShown: false }}
                         />
                     ) : (
                         <Stack.Screen
