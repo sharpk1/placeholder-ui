@@ -10,6 +10,7 @@ import axios from 'axios'
 import PunchedLeaf from '../components/PunchedLeaf'
 import UnpunchedLeaf from '../components/UnpunchedLeaf'
 import PunchCardLeaf from '../components/PunchCardLeaf'
+import NavbarHeader from '../components/NavbarHeader'
 
 export default function SecondScreeniOS({ route, navigation }) {
     const { image } = route.params
@@ -58,6 +59,7 @@ export default function SecondScreeniOS({ route, navigation }) {
 
     return (
         <>
+          <NavbarHeader navigation={navigation} />
             <ScrollView>
                 <View style={{backgroundColor: '#ffffff'}}>
                     {/* revamp this */}
